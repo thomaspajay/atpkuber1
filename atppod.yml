@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: atppod1
+    podatp: atppod1
+  name: atppod1
+  namespace: atpns
+spec:
+  containers:
+  - image: ajaytp/atpdwebapp:v1
+    name: atppod1
+    ports: 
+     - containerPort: 80 
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: atpd4svc1
+  name: atpd4svc1
+  namespace: atpns
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    podatp: atppod1
+  type: NodePort
+status:
+  loadBalancer: {}
